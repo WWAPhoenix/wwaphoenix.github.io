@@ -1,10 +1,7 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ja" xml:lang="ja">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Cache-Control" content="no-cache" />
-    <meta http-equiv="Expires" content="0" />
+    <meta charset="UTF-8">
     <title>WWA Wing - a World Wide Adventure implementation in JavaScript</title>
     <style>
         .fl {
@@ -41,7 +38,7 @@
 <body>
     <div id="wrapper">
         <section>
-            <h1>WWA Wing: 簡易マニュアル (ver. W3.15dβ2)</h1>
+            <h1>WWA Wing: 簡易マニュアル</h1>
             <p><a href="http://wwawing.com">WWA Wing</a>( WWA In the Next Generation )は、<a href="http://wwajp.com">WWA</a>のJavaScript実装です。
             煩わしい警告は出ず、一部のスマートフォンでも動作します。</p>
             
@@ -80,7 +77,8 @@
 &lt;/div&gt;</code></pre>
                     の、<code>data-wwa-mapdata</code> 属性に起動したいマップデータの名前を記入します。上の例では、caves01.datです。
                 </p>
-                <p>ローカルでテストしたい場合は、同梱の「WWA Debugger」をご利用ください。説明は、そちらのREADMEをご覧ください。</p>
+                <p>ローカルでテストしたい場合は、同梱の「wwa-server.exe」をご利用ください。<code>http://localhost:3000/</code>に続けて同じディレクトリのHTMLファイルをURLに指定するとテストプレイできます。 </p>
+                <p>例: <a href="http://localhost:3000/wwamap.html">http://localhost:3000/wwamap.html</a></p>
                 <p class="important">htmlファイルを直接クリックしても（Firefox以外では）動きません!!</p>
             </section>
 
@@ -103,6 +101,9 @@
                     <dt><code>data-wwa-classic-mode-enable</code>属性</dt>
                     <dd><code>true</code>を指定すると、本家と類似した挙動で動作します(詳細は後述)。
                     指定しなかった場合は<code>false</code>になります。</dd>
+                    <dt><code>data-wwa-item-effect-enable</code>属性</dt>
+                    <dd><code>false</code>を指定すると、アイテム取得時のエフェクトが無効になります。（マクロ文 <code>$effitem=0</code>を最初に実行することと等価）
+                    指定しなかった場合は<code>true</code>になります。</dd>
                 </dl>
             </section>
 
@@ -129,8 +130,31 @@
             <section>
                 <h2>更新情報</h2>
                 <section>
+                    <h3>v3.1.7からv3.1.8への変更点</h3>
+                    <ul>
+                        <li><code>$effect</code>マクロの最初の数字が<code>0</code>のとき(エフェクト終了)にフリーズする可能性がある不具合を修正</li>
+                        <li>WWA Wingの新しい作成ツールを同梱</li>
+                    </ul>
+                    <h3>v3.1.6からv3.1.7への変更点</h3>
+                    <ul>
+                        <li>Java版WWAに実装されていた<code>$effitem</code>マクロを復活</li>
+                        <li>メッセージがマクロのみのスコア法事パーツでメッセージが消えない問題を修正</li>
+                        <li>メッセージの先頭にある空白文字(半角スペースなど)が表示されない問題を修正</li>
+                        <li>クラシックモードかつタイトル画像が指定されている場合のプログレスバースタイル表示スタイルを修正</li>
+                    </ul>
+                    <h3>W3.15dβ2からv3.1.6への変更点</h3>
+                    <ul>
+                        <li>新しいビルド方式に移行</li>
+                        <li><code>$map</code>マクロがモンスターとスコア表示で相対座標に指定できない不具合を修正</li>
+                        <li>WWA Debuggerを廃止し、新しい開発用サーバへ移行</li>
+                        <li>効果音読み込みなしでパスワードセーブした後、効果音読み込みありで起動した場合にBGMが復元されない不具合を修正</li>
+                        <li>戦闘予測表示中にパーツのイベントが実行される不具合を修正</li>
+                        <li>BGM <code>71.mp3</code>の音源が途中で途切れないように修正</li>
+                        <li>HTMLファイルの改行コードを統一, メモ帳で開いても改行が出るようにした</li>
+                    </ul>
                     <h3>W3.15cからW3.15dβ2への変更点</h3>
                     <ul>
+
                     <li>β版とは異なる内容でW3.15cがリリースされたため、変更差分を取り込む。リリース予定のバージョンをW3.15dに変更(W3.15dβ2)</li>
                     <li>WWA PhoenixのWelcome To表示がクラシックになっていない問題を修正(W3.15cβ2)</li>
                     <li>wwa_classic.cssを追加 (W3.15cβ1)</li>
@@ -138,6 +162,7 @@
                     <li>一部のシステムメッセージを本家準拠に変更(W3.15cβ1)</li>
                     <li>Classic Modeを実装(W3.15cβ1)</li>
                     <li>カバー画像未指定時に本家同様のWelcome To WWA! を表示するように変更(W3.15cβ1)</li>
+                    <li>攻撃力をマクロ<code>$status</code>で変更した時にステータス欄に反映されない不具合を修正(W3.15c+)</li>
                     </ul>
                     <h3>W3.15bからW3.15cへの変更点</h3>
                     <ul>
@@ -290,13 +315,12 @@
                 <p>WWA Wingのソースコードの使用の制限については<a href="./LICENSE">MIT License</a>とします。</p>
                 <p>ただし、同梱されているマップデータファイル「caves01.dat」「caves02.dat」 「island02.dat」「wwamap.dat」、
                 ゲーム中で使用される画像の内「caves01.gif」「caves02.gif」「island02.gif」「making.gif」「mapcg.gif」および
-                WWA作成ツールに関しての著作権は原作者NAO氏が保持し、取り扱いについては<a href="http://wwawing.com">キャラバンサークル</a>
-                で定める通りとし、WWA Debuggerの実行ファイルおよびインストーラのバッチファイルに関しての著作権は、原作者Aruneko氏および
-                アイコン制作者プチ氏が保持し、取り扱いについては同梱しているWWA Debuggerの説明文書によるものとします。</p>
+                WWA作成ツールに関しての著作権は原作者NAO氏が保持し、取り扱いについては<a href="http://wwajp.com">キャラバンサークル</a>
+                で定める通りとします。</p>
                 <p><a rel="license" href="http://creativecommons.org/licenses/by/4.0/deed.ja"><img alt="クリエイティブ・コモンズ・ライセンス" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/80x15.png" /></a><br />
                 また、このマニュアルについては <a rel="license" href="http://creativecommons.org/licenses/by/4.0/deed.ja">クリエイティブ・コモンズ 表示 4.0 国際 ライセンスの下に提供されています。</a></p>
                 <p> Internet RPG &quot;<a href="http://www.wwajp.com">World Wide Adventure</a>&quot; &copy;1996-2016 NAO</p>
-                <p> &quot;<a href="http://wwawing.com/">WWA Wing</a>&quot; &copy;2013-2017 WWA Wing Team</p>
+                <p> &quot;<a href="http://wwawing.com/">WWA Wing</a>&quot; &copy;2013-2019 WWA Wing Team</p>
             </footer>
         </section>
     </div>
