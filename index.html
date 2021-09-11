@@ -65,6 +65,33 @@
 	}
     </style>
 </head>
+<script>
+	function onClickButton(button, textArea) {
+		button.disabled = true;
+		textArea.select();
+		document.execCommand("copy");
+		var originalMessage = button.textContent;
+		button.textContent = "コピーしました";
+		setTimeout(function() {
+			button.textContent = originalMessage;
+			button.disabled = false;
+		}, 1000);
+	}
+	function onFocusTextarea(event) {
+		event.currentTarget.select();
+	}
+	function setEventHandlers(elementId) {
+		var textArea = document.getElementById(elementId + "-textarea");
+		textArea.addEventListener("click", onFocusTextarea);
+		document.getElementById(elementId + "-copy-button").addEventListener("click", function(event) {
+		 onClickButton(event.currentTarget, textArea)
+		});
+	}
+	document.addEventListener("DOMContentLoaded", function() {
+		setEventHandlers("wwap-script");
+		setEventHandlers("image-inspector-script");
+	});
+</script>
 <body>
     <div id="wrapper">
         <h1>WWA Phoenix</h1>
@@ -80,12 +107,13 @@
         <p>効果音は、WWAデフォルトのものに置換されてしまいます。au形式の音が再生できないための問題です。申し訳ございません。</p>
 				<p>Webkit/Blink系ブラウザ(Chrome, Safari, Opera)では、一部のGIF画像の描画に失敗するようです（ブラウザの仕様と思われます）。失敗した場合はFirefoxなどを利用してください。</p>
 				<p>WWA Wing v3.1.8より後に追加された機能は対応しておりません。Quick Saveは1つのみですし、ブラウザを閉じるとその内容は消えてしまいます。予めご了承ください。</p>
-	<textarea rows="10" cols="100" readonly="true" onfocus="this.select();">javascript:var rt="https://wwaphoenix.github.io/";if(0<frames.length){for(var i=0;i<frames.length;i++) {try {if(0<frames[i].document.getElementsByTagName("applet").length){var a=confirm(frames[i].location.href+"\nでappletを検出。移動しますか?(移動後再度実行してください)\n");if(!0===a){location.href=frames[i].location.href;break}}}catch(e){}}}main(window);function main(c){c.wwap_mode=!0;c.external_script_inject_mode=!0;var b=c.document.createElement("link");b.rel="stylesheet";b.href=rt+"/wwa_classic.css";c.document.getElementsByTagName("head")[0].appendChild(b);c=c.document.getElementsByTagName("applet");if(0<c.length)for(b=0;b<c.length;b++)isWWA(c[b])&&replaceApplet(c[b])}function isWWA(c){return"WWA.class"===c.getAttribute("code")||"WWAX.class"===c.getAttribute("code")}function replaceApplet(c){var b=c.parentElement;b.removeChild(c);var d=document.createElement("div");c=getMapDataFileName(c);d.setAttribute("id","wwa-wrapper");d.classList.add("wwa-size-box");d.setAttribute("data-wwa-mapdata",c);d.setAttribute("data-wwa-loader",rt+"wwaload.js");d.setAttribute("data-wwa-classic-mode-enable",true);c=confirm("URLゲートを有効にしますか?\n(フレームでBGMを再生するWWAではキャンセルを選んでください)");d.setAttribute("data-wwa-urlgate-enable",c);x=confirm("アイテムエフェクトを有効にしますか?(アイテムボックスを何かの表示に使っている作品ではキャンセルをお勧めします)");d.setAttribute("data-wwa-item-effect-enable",x);b.insertBefore(d,b.firstChild);b=document.createElement("script");b.src=rt+"audio/audio.min.js";b.charset="UTF-8";document.getElementsByTagName("head")[0].appendChild(b);b=document.createElement("script");b.src=rt+"wwaload.noworker.js";b.setAttribute("id","wwaloader-ex");b.charset="UTF-8";document.getElementsByTagName("head")[0].appendChild(b);b=document.createElement("script");b.src=rt+"wwa.js";b.charset="UTF-8";document.getElementsByTagName("head")[0].appendChild(b)}function getMapDataFileName(c){for(var b=0;b<c.children.length;b++)if("param"===c.children[b].tagName.toLowerCase()){var d=c.children[b].getAttribute("name"),d=d.toLowerCase();if(null!==d&&"parammapname"===d&&(d=c.children[b].getAttribute("value"),null!==d))return d}throw Error("no mapfile detected.");}void 0;</textarea>
+ <textarea rows="10" cols="100" readonly="true" id="wwap-script-textarea">javascript:var rt="https://wwaphoenix.github.io/";if(0<frames.length){for(var i=0;i<frames.length;i++) {try {if(0<frames[i].document.getElementsByTagName("applet").length){var a=confirm(frames[i].location.href+"\nでappletを検出。移動しますか?(移動後再度実行してください)\n");if(!0===a){location.href=frames[i].location.href;break}}}catch(e){}}}main(window);function main(c){c.wwap_mode=!0;c.external_script_inject_mode=!0;var b=c.document.createElement("link");b.rel="stylesheet";b.href=rt+"/wwa_classic.css";c.document.getElementsByTagName("head")[0].appendChild(b);c=c.document.getElementsByTagName("applet");if(0<c.length)for(b=0;b<c.length;b++)isWWA(c[b])&&replaceApplet(c[b])}function isWWA(c){return"WWA.class"===c.getAttribute("code")||"WWAX.class"===c.getAttribute("code")}function replaceApplet(c){var b=c.parentElement;b.removeChild(c);var d=document.createElement("div");c=getMapDataFileName(c);d.setAttribute("id","wwa-wrapper");d.classList.add("wwa-size-box");d.setAttribute("data-wwa-mapdata",c);d.setAttribute("data-wwa-loader",rt+"wwaload.js");d.setAttribute("data-wwa-classic-mode-enable",true);c=confirm("URLゲートを有効にしますか?\n(フレームでBGMを再生するWWAではキャンセルを選んでください)");d.setAttribute("data-wwa-urlgate-enable",c);x=confirm("アイテムエフェクトを有効にしますか?(アイテムボックスを何かの表示に使っている作品ではキャンセルをお勧めします)");d.setAttribute("data-wwa-item-effect-enable",x);b.insertBefore(d,b.firstChild);b=document.createElement("script");b.src=rt+"audio/audio.min.js";b.charset="UTF-8";document.getElementsByTagName("head")[0].appendChild(b);b=document.createElement("script");b.src=rt+"wwaload.noworker.js";b.setAttribute("id","wwaloader-ex");b.charset="UTF-8";document.getElementsByTagName("head")[0].appendChild(b);b=document.createElement("script");b.src=rt+"wwa.js";b.charset="UTF-8";document.getElementsByTagName("head")[0].appendChild(b)}function getMapDataFileName(c){for(var b=0;b<c.children.length;b++)if("param"===c.children[b].tagName.toLowerCase()){var d=c.children[b].getAttribute("name"),d=d.toLowerCase();if(null!==d&&"parammapname"===d&&(d=c.children[b].getAttribute("value"),null!==d))return d}throw Error("no mapfile detected.");}void 0;</textarea><br>
+ <button id="wwap-script-copy-button">スクリプトをコピー</button>
  <h2>2018-10-13 WWAの画像調べるくん</h2>
  <p>あなたのブラウザを、Java版のWWAで使用されている画像のページまでご案内します。移動先のページから右クリックなどで画像ファイルをローカルに保存することができます。使い方はPhoenixと同じです。</p>
  <p>WWAで使用されている画像がすべて表示されてしまうので、ネタバレ等には十分お気をつけください。</p>
- <textarea rows="10" cols="100" readonly="true" onfocus="this.select();">javascript:var rt="https://wwaphoenix.github.io/";if(0<frames.length){for(var i=0;i<frames.length;i++) {try {if(0<frames[i].document.getElementsByTagName("applet").length){var a=confirm(frames[i].location.href+"\nでappletを検出。移動しますか?(移動後再度実行してください)\n");if(!0===a){location.href=frames[i].location.href;break}}}catch(e){}}}main(window);function main(c){var b;c.wwap_mode=!0;c.external_script_inject_mode=!0;c=c.document.getElementsByTagName("applet");if(0<c.length)for(b=0;b<c.length;b++)isWWA(c[b])&&replaceApplet(c[b])}function isWWA(c){return"WWA.class"===c.getAttribute("code")||"WWAX.class"===c.getAttribute("code")}function replaceApplet(c){var b=c.parentElement;b.removeChild(c);b=document.createElement("script");b.src=rt+"wwaload.noworker.js";b.setAttribute("id","wwaloader-ex");b.charset="UTF-8";document.getElementsByTagName("head")[0].appendChild(b);var x=document.createElement("script");x.src=rt+"jump-to-image.js";x.charset="UTF-8";document.getElementsByTagName("head")[0].appendChild(x);var m=getMapDataFileName(c);if(b.readyState==="complete"){window.loader_start({data:{fileName:m}});}else{b.onload=function(){console.log(loader_start);loader_start({data:{fileName:m}});}}}function getMapDataFileName(c){for(var b=0;b<c.children.length;b++)if("param"===c.children[b].tagName.toLowerCase()){var d=c.children[b].getAttribute("name"),d=d.toLowerCase();if(null!==d&&"parammapname"===d&&(d=c.children[b].getAttribute("value"),null!==d))return d}throw Error("no mapfile detected.");}void 0;
-</textarea>
+ <textarea rows="10" cols="100" readonly="true" id="image-inspector-script-textarea">javascript:var rt="https://wwaphoenix.github.io/";if(0<frames.length){for(var i=0;i<frames.length;i++) {try {if(0<frames[i].document.getElementsByTagName("applet").length){var a=confirm(frames[i].location.href+"\nでappletを検出。移動しますか?(移動後再度実行してください)\n");if(!0===a){location.href=frames[i].location.href;break}}}catch(e){}}}main(window);function main(c){var b;c.wwap_mode=!0;c.external_script_inject_mode=!0;c=c.document.getElementsByTagName("applet");if(0<c.length)for(b=0;b<c.length;b++)isWWA(c[b])&&replaceApplet(c[b])}function isWWA(c){return"WWA.class"===c.getAttribute("code")||"WWAX.class"===c.getAttribute("code")}function replaceApplet(c){var b=c.parentElement;b.removeChild(c);b=document.createElement("script");b.src=rt+"wwaload.noworker.js";b.setAttribute("id","wwaloader-ex");b.charset="UTF-8";document.getElementsByTagName("head")[0].appendChild(b);var x=document.createElement("script");x.src=rt+"jump-to-image.js";x.charset="UTF-8";document.getElementsByTagName("head")[0].appendChild(x);var m=getMapDataFileName(c);if(b.readyState==="complete"){window.loader_start({data:{fileName:m}});}else{b.onload=function(){console.log(loader_start);loader_start({data:{fileName:m}});}}}function getMapDataFileName(c){for(var b=0;b<c.children.length;b++)if("param"===c.children[b].tagName.toLowerCase()){var d=c.children[b].getAttribute("name"),d=d.toLowerCase();if(null!==d&&"parammapname"===d&&(d=c.children[b].getAttribute("value"),null!==d))return d}throw Error("no mapfile detected.");}void 0;</textarea><br>
+ <button id="image-inspector-script-copy-button">スクリプトをコピー</button>
  <h2 id="usage">基本的な使い方（ブックマークに保存する場合）</h2>
  <p class="important">下記はPCのブラウザの利用を前提としています。スマートフォン・タブレットをご利用の場合は、動作しない可能性があります。</p>
  <h3>1. ブックマークを作成します。</h3>
