@@ -66,31 +66,44 @@
     </style>
 </head>
 <script>
-	function onClickButton(button, textArea) {
-		button.disabled = true;
-		textArea.select();
-		document.execCommand("copy");
-		var originalMessage = button.textContent;
-		button.textContent = "コピーしました";
-		setTimeout(function() {
-			button.textContent = originalMessage;
-			button.disabled = false;
-		}, 1000);
-	}
-	function onFocusTextarea(event) {
-		event.currentTarget.select();
-	}
-	function setEventHandlers(elementId) {
-		var textArea = document.getElementById(elementId + "-textarea");
-		textArea.addEventListener("click", onFocusTextarea);
-		document.getElementById(elementId + "-copy-button").addEventListener("click", function(event) {
-		 onClickButton(event.currentTarget, textArea)
-		});
-	}
-	document.addEventListener("DOMContentLoaded", function() {
-		setEventHandlers("wwap-script");
-		setEventHandlers("image-inspector-script");
-	});
+			// async function にできないのは IE11 のため
+			function copyTextareaContent(textarea, next) {
+				if (navigator.clipboard) {
+					navigator.clipboard.writeText(textarea.value).then(next);
+				} else { // IE11向け対応 document.execCommand は 廃止されているがやむなし
+					textarea.select();
+					document.execCommand("copy");
+					next();
+				}
+			}
+			function onCopyCompleted(button) {
+				var originalMessage = button.textContent;
+				button.textContent = "コピーしました";
+				setTimeout(function () {
+					button.textContent = originalMessage;
+					button.disabled = false;
+				}, 1000);
+			}
+			function onClickButton(button, textarea) {
+				button.disabled = true;
+				copyTextareaContent(textarea, function() {
+					onCopyCompleted(button);
+				});
+			}
+			function onFocusTextarea(event) {
+				event.currentTarget.select();
+			}
+			function setEventHandlers(elementId) {
+				var textarea = document.getElementById(elementId + "-textarea");
+				textarea.addEventListener("click", onFocusTextarea);
+				document.getElementById(elementId + "-copy-button").addEventListener("click", function (event) {
+					onClickButton(event.currentTarget, textarea)
+				});
+			}
+			document.addEventListener("DOMContentLoaded", function () {
+				setEventHandlers("wwap-script");
+				setEventHandlers("image-inspector-script");
+			});
 </script>
 <body>
     <div id="wrapper">
